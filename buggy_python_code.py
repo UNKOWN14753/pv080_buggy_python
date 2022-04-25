@@ -1,10 +1,12 @@
 # contains bunch of buggy examples
 # taken from https://hackernoon.com/10-common-security-gotchas-in-python-and-how-to-avoid-them-e19fbe265e03
-import cPickle
-import subprocess
 import base64
+import pickle
 import subprocess
+
+import app as app
 import flask
+
 
 # Input injection
 def transcode_file(request, filename):
@@ -19,9 +21,16 @@ def foo(request, user):
 
 
 # Pickles
-class RunBinSh(object):
+class RunBinSh:
+    '''
+    It's just Pickles man
+    '''
     def __reduce__(self):
-        return (subprocess.Popen, (('/bin/sh',),))
+        '''
+        executes subprocess
+        :return:
+        '''
+        return subprocess.Popen, (('/bin/sh',),)
 
 def import_urlib_version(version):
     exec("import urllib%s as urllib" % version)
